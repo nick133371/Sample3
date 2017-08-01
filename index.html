@@ -488,20 +488,51 @@
         <div class="row">
           <div class="col-md-7">
             <h3 class="footer-title">Follow Me!</h3>
-            <p>Vuoi ricevere news su altri template?<br/>
-              Visita Andrea Galanti.it e vedrai tutte le news riguardanti nuovi Theme!<br/>
-              Go to: <a  href="http://andreagalanti.it" target="_blank">andreagalanti.it</a>
+            <p>
+title: FAPI Message exchange;
+ u: [label= "UE", pos= +2.0];
+ p: [label= "PHY eNB", pos= +1.5];
+ l: [label= "L2/L3_SW", pos= +2.0];
+
+
+p->u: MIB-NB
+      \-NPBCH;
+p->u: SIB-NB
+      \-NPDSCH;
+u->p: Preamble(Msg1)
+      \-NPRACH;
+p--p: >= 3ms;
+l->p: schedule_response (DCI-N1);
+p->u: DCI-N1;
+p--p: K0;
+l->p: schedule_response (NDLSCH PDU & MAC PDU)
+      \-RAR (Msg2);
+p->u: Random Access Response(Msg2)
+     \-NPDSCH;
+u--u: K0 (>=13 ms);
+l->p: schedule_response (NULSCH PDU Format 1);
+u->p: RRC Connection request(Msg3);
+---:\c(red)FAIL\c();
+l->p: schedule_response (DCI-N0);
+p->u: DCI-N0;
+u--u: K0 (>=8);
+l->p:schedule_response (NULSCH PDU Format 1);
+u->p: RRC Connection request(Msg3);
+---: \c(teal) SUCCESS \c();
+l->p: schedule_response (DCI-N1)
+      \-Msg4;
+p->u: DCI-N1
+      \-K0_0 & K0_1;
+u--u: K0_0;
+l->p: schedule_response (NDLSCH PDU & MAC PDU)
+      \-Msg4;
+p->u: RRC Connection setup(Msg4);
+l->p: schedule_response (NULSCH PDU Format 2);
+u--u: K0_1;
+u->p: ACK/NACK;
+
             </p>
-			
-			<!-- LICENSE -->
-			<a rel="cc:attributionURL" href="http://www.andreagalanti.it/flatfy"
-		   property="dc:title">Flatfy Theme </a> by
-		   <a rel="dc:creator" href="http://www.andreagalanti.it"
-		   property="cc:attributionName">Andrea Galanti</a>
-		   is licensed to the public under 
-		   <BR>the <a rel="license"
-		   href="http://creativecommons.org/licenses/by-nc/3.0/it/deed.it">Creative
-		   Commons Attribution 3.0 License - NOT COMMERCIAL</a>.
+		
 		   
 	   
           </div> <!-- /col-xs-7 -->
